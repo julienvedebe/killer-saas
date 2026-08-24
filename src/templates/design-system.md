@@ -5,6 +5,10 @@ open-design:
   skill: frontend-design              # skill driving each story's run
   # agent: <runtime id>               # optional — only if pinned; default: Open Design's configured runtime
   # model: <model id>                 # optional — same
+component-registry:                   # the boilerplate's own component source, if it has one.
+  name: <e.g. shadcn/ui>              # OMIT THIS WHOLE BLOCK when there is none: every
+  add: <e.g. pnpm dlx shadcn@latest add <component>>   # missing component is then a gap,
+  catalog: <URL or command listing what the registry offers>   # settled in /ks-design-system.
 ---
 # Design System — <product>
 
@@ -24,10 +28,16 @@ open-design:
 - <the system's rules, verbatim — density, elevation, motion, iconography, anti-patterns>
 
 ## Available components (boilerplate)
+Installed right now — what a story can use today without adding anything.
+
 | Component | Import | Usage | Maps to (system) |
 |---|---|---|---|
 | <Button> | <@/components/ui/button> | <...> | <primary action> |
 | <Input>  | <@/components/ui/input>  | <...> | <field> |
+
+Anything the registry above offers but the repo hasn't installed is **installable**, not missing:
+a story adds it with the registry's command, as a plan task. Anything no registry offers is a
+**gap**, settled here and nowhere else.
 
 ## UI patterns
 - Forms: <...>

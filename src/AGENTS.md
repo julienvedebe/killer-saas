@@ -85,6 +85,7 @@ The design phase runs on **Open Design**. The global design system lives in `doc
 - One Open Design project per product, one screen file per story: the screens stay coherent with each other, not merely with the tokens.
 - Mirrored sections of `docs/design-system.md` are never hand-edited — change the system in Open Design and rerun `/ks-design-system`.
 - Inventing a component or token outside the design system is forbidden. Compose with what exists.
+- A component the declared `component-registry` offers but the repo hasn't installed is **installable**, not missing: the story adds it with the registry's command, as a planned task. A component no registry offers is a **gap**: it blocks, and it is settled in `/ks-design-system`. Hand-rolling either one is drift.
 - The HTML mockup is a reference, not code: the implementation uses the boilerplate's real components.
 - A need the system doesn't cover = a "design system gap" to report, never to fill freestyle.
 - Stories without UI skip `/ks-design`.

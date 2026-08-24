@@ -16,6 +16,7 @@
 - [ ] Repo conventions followed (AGENTS.md)
 - [ ] No accepted ADR contradicted (docs/decisions/)
 - [ ] Design system respected — components/tokens from docs/design-system.md, screen matches the intent of docs/designs/<id>.md (UI stories)
+- [ ] Any component added by the diff came from the declared registry and was listed under "Components to install" — a hand-rolled equivalent of something the registry offers is drift, and one built over an unsettled gap is a critical
 
 ## Tests
 - [ ] Test suite run by the reviewer, passing

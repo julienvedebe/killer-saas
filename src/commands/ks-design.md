@@ -77,7 +77,12 @@ Write docs/designs/<id>.md (structure: @templates/design-screen.md), including t
 
 The run's final message is part of the deliverable: it names the gaps it hit and the fixes it made to itself. Read it and carry its gaps into the .md — they are the ones the system actually failed to cover, observed rather than guessed.
 
-Gaps: any need the design system doesn't cover → record it under "Design system gaps" in the .md. DON'T invent it, and don't let the run invent it either: a gap is settled in /ks-design-system, not here.
+Then classify every component the screen needs that the installed inventory doesn't cover. Two outcomes, and they are not the same thing:
+
+- **Installable** — the `component-registry` declared in docs/design-system.md offers it. Record it under "Components to install" with the exact add command. It is a plan task, not a framing decision: the component comes from the system, so installing it invents nothing. Verify it against the registry's catalog rather than assuming — a component you merely expect to exist is not installable.
+- **Gap** — no registry offers it (or none is declared). Record it under "Design system gaps". DON'T invent it, and don't let the run invent it either: a gap is settled in /ks-design-system, not here. The mockup may show one composition of it; that composition is an illustration, never the decision.
+
+When you cannot tell which of the two it is, it is a gap. The default is the stricter branch: an over-escalated component costs one question, a silently composed one ships a component the design system never agreed to.
 
 ### Step 7 — Refine
 `/ks-design <id> --refine "<feedback>"`: same project, same design system, `start_run` with the feedback plus a pointer to the existing `<id>.html`, `requestId` `ks-<id>-r<n>`. Then redo Steps 5 and 6. Append the refinement to the brief so that file keeps the full intent — the brief is the prompt's history, not just its first draft.

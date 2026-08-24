@@ -19,6 +19,8 @@ If docs/research/<id>.md doesn't exist, point out that /ks-research <id> is reco
 
 If the story has UI, the plan follows the screen defined in docs/designs/<id>.md: it references the design system's components and never invents new ones. The HTML mockup is a reference, not a source of code.
 
+Components listed under "Components to install" in that file become real tasks — each carrying its add command, and ordered before the tasks that use them. An open entry under "Design system gaps" is different: it is not a task, it is a blocker. Say so and send it back to /ks-design-system rather than planning around it.
+
 Proceed as follows:
 1. Isolate the target story and its acceptance criteria.
 2. Break it into ordered tasks, each one small and verifiable. Lean on the research: real files, verified APIs, known traps. A task that can't fail a test isn't a task — merge it into one that can.

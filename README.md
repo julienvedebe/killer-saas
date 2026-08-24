@@ -88,6 +88,12 @@ What it does — and doesn't:
 - Stamps the installed version in `.ks-version`.
 - Never touches `AGENTS.md`: if the method's rules evolved, merge by hand.
 
+## Prerequisite — Open Design
+
+The design phase runs on **Open Design**: `/ks-design-system` binds the product to a design system there, `/ks-design` generates each story's screen on it. Both commands drive it over **MCP**, so the Open Design server has to be reachable from your tool (Claude Code, Codex, …).
+
+Everything else in the pipeline is plain markdown and shell and needs nothing: without Open Design you can still frame, plan, execute, review and ship — you just can't produce a story's screen, and `/ks-design` stops instead of drawing one itself.
+
 ## Usage
 
     /ks-prd <target-saas>

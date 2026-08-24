@@ -54,9 +54,9 @@ Five framing steps, once per product. Then one cycle per story — one story = o
 | Stories | `/ks-stories` | Breakdown into shippable, agentic-ready slices | `docs/stories.md` |
 | Stories Review | `/ks-stories-review` | Fresh-context review of the breakdown vs the PRD perimeter | `docs/reviews/stories.md` |
 | Architecture | `/ks-architect` | The HOW: stack, conventions, patterns | `docs/architecture.md` + `AGENTS.md` |
-| Design System | `/ks-design-system` | Captures tokens, components, UI patterns — records, never draws | `docs/design-system.md` |
+| Design System | `/ks-design-system` | Binds the product to an Open Design system and mirrors it — records, never draws | `docs/design-system.md` |
 | Research | `/ks-research <story>` | The real state of the code within the story's scope | `docs/research/<story>.md` |
-| Design | `/ks-design <story>` | The story's screen, anchored to the design system (agent or Claude Design / Gemini) | `docs/designs/<story>.md` + `.html` |
+| Design | `/ks-design <story>` | The story's screen, generated in Open Design from that system | `docs/designs/<story>.md` + `-brief.md` + `.html` |
 | Plan | `/ks-plan <story>` | Sequenced, small, verifiable tasks | `docs/plans/<story>.md` |
 | Execute | `/ks-execute <story>` | TDD implementation by the `implementer` subagent | code + tests + commits |
 | Review | `/ks-review <story>` | Anti-hallucination review by the `reviewer` subagent | `docs/reviews/<story>.md` |
@@ -72,13 +72,17 @@ Five framing steps, once per product. Then one cycle per story — one story = o
 
 **/ks-architect** — starts by asking whether the project stands on a boilerplate; if none, it proposes: start from ship-saas.now (the ideal fit for a modern fullstack React / Next.js / Drizzle / Better Auth stack), or scaffold a classic default — Next.js + Tailwind + shadcn/ui — recorded as an ADR and then analyzed like any boilerplate. Then analyzes the starting code (`codebase-analysis` skill): actual structure, conventions and patterns of the boilerplate. Fills the architecture doc and injects the concrete conventions into `AGENTS.md`. The boilerplate is imposed: conform to it, don't rewrite it.
 
-**/ks-design-system** — captures the global design system into `docs/design-system.md`: tokens, available components (inventoried from the boilerplate), imposed UI patterns, do/don't. It records and structures — it never invents visuals: the direction comes from the user (Claude Design / Gemini output) or from the boilerplate's existing system. Fail-closed: no source, no design system. Like `AGENTS.md` and the ADRs, it's a transverse asset: set once, read at every story.
+**/ks-design-system** — binds the product to an **Open Design** design system and mirrors it into `docs/design-system.md`. Three routes, user's choice: pick an existing system (Open Design's catalog — `shadcn`, `linear-app`, `stripe`, `material`… — or one of the user's own `user:*` systems), extract one from a live site you own (`brand-extract` run), or author one (`design-md` / `design-consultation` run). Then it creates ONE Open Design project for the whole product with that system attached, and writes `docs/design-system.md`: the binding in frontmatter, the system's `DESIGN.md` mirrored verbatim, and — the half Open Design cannot know — the boilerplate's real component inventory, from `codebase-analysis`. It records and structures; it never invents visuals, and it never copies the target SaaS's identity. Fail-closed: Open Design unreachable, no design system. Like `AGENTS.md` and the ADRs, it's a transverse asset: set once, read at every story.
+
+The mirror is a copy, not a source: the system is edited in Open Design and the command rerun. A hand-edited mirrored section is silently overwritten on the next refresh — and believed until then.
 
 ### Cycle (per story)
 
 **/ks-research** — explores the story's real scope before any planning: files involved in their current state, verified APIs and functions (exact name, signature, location), traps and dependencies. It checks the story's PREMISE, not just that the things it names exist — a function that exists and throws on the story's case invalidates it — and re-scores the story's complexity now that the code has been read, with a split proposal when the verdict is 5. Framing docs go stale as soon as story 2 ships; research anchors the plan in today's code, not day one's. It is anti-hallucination applied upstream: the review detects, the research prevents.
 
-**/ks-design** — derives the story's screen from the design system. Fail-closed: no `docs/design-system.md`, no design. Two paths, user's choice: the **agent** generates it (structured `.md` + low-fi HTML mockup using only the system's tokens), or the user produces it in **Claude Design / Gemini** — the agent first writes a self-contained brief (`docs/designs/<id>-brief.md`: screens, exact fields, states, design-system constraints copied in), the user pastes it into the external tool, and the agent captures the result into the same output files. Needs the system doesn't cover become "design system gaps" — recorded, never invented. The mockup is a reference, never pasted into production: Execute builds the screen with the boilerplate's real components. Stories without UI skip this step.
+**/ks-design** — generates the story's screen in Open Design, on the project bound at the previous step. Fail-closed twice: no `docs/design-system.md`, no design — and no `open-design` binding in its frontmatter, no design either (the binding in the file is the state; the tab open in Open Design is not). The command writes the brief to `docs/designs/<id>-brief.md` — the story, the screens, the exact fields, the four states, what's out of scope — and that file **is** the prompt, recorded so the run is auditable and reproducible. It deliberately does not restate the design system: the system is attached to the project and applies to every run, so recopying tokens by hand is pure drift surface. Then `start_run` (stable `requestId` — a retry is the same run, not a second billed one), poll to a terminal status, and bring the result back: `<id>.html` written verbatim, `<id>.md` recording project, system, run id and preview URL.
+
+One path, no fallback: the agent never draws the mockup and never hand-edits the generated HTML. A failed run writes no design file — a half-run is not a design. A wrong screen is refined (`/ks-design <id> --refine "<feedback>"`, appended to the brief), not patched: patching produces a mockup the design system never produced, and the next run overwrites it anyway. Two refinements is the normal ceiling; past that the problem is the story or the system, not the prompt. Needs the system doesn't cover become "design system gaps" — recorded, never invented, settled in `/ks-design-system`. The mockup is a reference, never pasted into production: Execute builds the screen with the boilerplate's real components. Stories without UI skip this step.
 
 **/ks-plan** — breaks the story into ordered tasks, each one small and verifiable, based on the research. Anticipates touched files and the test strategy, and carries the run's interdicts — what must not change, verifiable by the reviewer. Never produces code. The plan is validated by the user before execution.
 
@@ -106,7 +110,7 @@ Everything the pipeline produces is markdown under `docs/`, versioned by git. No
 | Research, plan, review (per story) | `docs/research/<id>.md`, `docs/plans/<id>.md`, `docs/reviews/<id>.md` |
 | Tasks + progress | checkboxes inside `docs/plans/<id>.md`, ticked commit by commit |
 | Decisions | `docs/decisions/NNN-<slug>.md` — MADR-style ADRs: context, options rejected and why, consequences. Immutable, superseded not edited |
-| Design | `docs/design-system.md` (global, transverse) ; `docs/designs/<id>.md` + `.html` per story — the mockup is a reference, never production code |
+| Design | `docs/design-system.md` (global, transverse — Open Design binding + mirrored system) ; `docs/designs/<id>-brief.md` (the run's prompt) + `<id>.md` + `<id>.html` per story — the mockup is a reference, never production code |
 | Pipeline state | derived — file existence + `Ship allowed:` verdict + git. Never stored, so never stale |
 
 Lifecycle: framing docs are committed on the default branch at the end of their phase. Story docs travel with the story — the implementer's first commit on `feature/<id>` brings the research, the design and the plan, each task commit ticks its checkbox, `/ks-ship` commits the review. Every PR therefore carries its own research, design, plan and review: the audit trail is the PR itself. Structural decisions get an ADR in `docs/decisions/`: framing ADRs commit on the default branch, story ADRs travel with their PR.
@@ -183,6 +187,9 @@ One canonical source (`src/`, Claude-shaped, the richest target), one installer,
 | "No direct coding" via tool permissions | ✅ mechanical | ~ agent sandbox (coarser) | ✗ prose-only |
 | Subagent model routing (sonnet/opus) | ✅ | note only | note only |
 | `AskUserQuestion` checkpoints | ✅ structured | prose | prose |
+| Design phase (Open Design MCP) | ✅ | ✅ if the MCP server is configured | ✅ if the MCP server is configured |
+
+**The design step is the one hard dependency.** `/ks-design-system` and `/ks-design` drive Open Design over MCP: any tool that can reach that server runs them identically — the binding and the mirror live in `docs/design-system.md`, which is plain markdown in the repo. A tool with no MCP access can still run the whole pipeline; it just cannot produce a story's screen, and the step fails closed rather than degrading into a hand-drawn mockup.
 
 **The honest line:** the file-based gates (a story needs a `validated: yes` plan before code, a `Ship allowed: yes` review before merge) port to every tool because they are shell-on-markdown, not tool permissions. The permission/isolation guarantees are Claude-mechanical and degrade elsewhere. Rather than pretend otherwise, killer-saas moves enforcement into the **repo**:
 

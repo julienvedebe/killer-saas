@@ -11,11 +11,11 @@ Règle unique : interdit de coder en direct. Chaque feature passe par le pipelin
 2. /ks-stories           — découpe en user stories agentic-ready
 3. /ks-stories-review    — relit le découpage vs le périmètre du PRD (contexte vierge)
 4. /ks-architect         — stack, conventions, rules
-5. /ks-design-system     — capture le design system global (tokens, composants)
+5. /ks-design-system     — lie le design system Open Design + le miroir en local
 
 ## Par story (une feature = un cycle = une branche = une PR)
 6. /ks-research <story>  — explore le contexte réel (code actuel, API, pièges)
-7. /ks-design <story>    — décline l'écran depuis le design system (si UI)
+7. /ks-design <story>    — génère l'écran dans Open Design, depuis ce system (si UI)
 8. /ks-plan <story>      — éclate la story en tâches
 9. /ks-execute <story>   — code en TDD (subagent isolé)
 10. /ks-review <story>   — review anti-hallucination + gate

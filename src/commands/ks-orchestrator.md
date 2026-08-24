@@ -9,6 +9,10 @@ allowed-tools:
   - AskUserQuestion
   - Agent
   - Bash
+  - mcp__open-design__get_project
+  - mcp__open-design__start_run
+  - mcp__open-design__get_run
+  - mcp__open-design__get_artifact
 ---
 # ks-orchestrator — One story, full cycle, checkpoints kept
 
@@ -30,7 +34,9 @@ Then resolve $ARGUMENTS to the story id (`s<number>-<slug>`) against docs/storie
 If docs/research/<id>.md doesn't exist, produce it now following the ks-research contract: codebase-analysis skill on the story's scope, current state of the code, output structured by @templates/research.md. Otherwise reuse the existing file.
 
 ## Phase 2 — Design (UI stories only)
-If the story has a screen and docs/designs/<id>.md doesn't exist, follow the ks-design contract: fail-closed on docs/design-system.md (missing → stop and point to /ks-design-system), ask who produces the design (agent / Claude Design / Gemini) via AskUserQuestion, output docs/designs/<id>.md + .html anchored to the design system only. A story without UI skips this phase.
+If the story has a screen and docs/designs/<id>.md doesn't exist, follow the ks-design contract: fail-closed on docs/design-system.md AND on its `open-design` binding (missing → stop and point to /ks-design-system), write the brief to docs/designs/<id>-brief.md, commission the run on the bound Open Design project (`start_run`, requestId `ks-<id>`), poll `get_run` to a terminal status, and bring the result back into docs/designs/<id>.md + .html. A failed run stops the phase — you never draw the screen yourself, and there is no fallback path. A story without UI skips this phase.
+
+Refinement is a human call, not yours: if the screen is off, stop and hand back `/ks-design <id> --refine "<feedback>"` rather than re-running blind.
 
 ## Phase 3 — Plan
 If docs/plans/<id>.md doesn't exist, produce it following the ks-plan contract: small verifiable tasks, structured by @templates/plan.md.

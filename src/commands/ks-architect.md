@@ -18,10 +18,10 @@ Apply the codebase-analysis skill to analyze the starting code (boilerplate): st
 
 Proceed as follows:
 1. The boilerplate question (AskUserQuestion): does the project start from a boilerplate? killer-saas is built to stand on one — the stack comes from the base, not from scratch.
-   - Boilerplate present (e.g. ship-saas.now): analyze it (next steps).
+   - Boilerplate present: analyze it (next steps).
    - No boilerplate: propose the options (AskUserQuestion) —
-     a) ship-saas.now — the ideal fit for a modern fullstack stack (React, Next.js, Drizzle, Better Auth). The user sets it up, then reruns /ks-architect.
-     b) A classic default stack scaffolded now: Next.js + Tailwind + shadcn/ui (+ Drizzle and Better Auth if the PRD needs data/auth). Record the stack choice as an ADR, scaffold it (create-next-app, shadcn init), then analyze the result like any boilerplate.
+     a) Next.js + Tailwind + shadcn/ui, scaffolded now (+ Drizzle and Better Auth if the PRD needs data/auth). Free, and it already speaks the same component vocabulary as the design system bound in /ks-design-system. Record the stack choice as an ADR, scaffold it (create-next-app, shadcn init), then analyze the result like any boilerplate.
+     b) ship-saas.now — a paid commercial boilerplate (one-time licence, several hundred euros; check the site for the current price) covering fullstack Next.js, PostgreSQL + Drizzle, Stripe, auth with RBAC and 2FA, multi-tenant, CI/CD. Say plainly that it is paid, and roughly how much, IN the option itself: a step that walks the user into a paywall it never named has lied to them. The user buys and sets it up, then reruns /ks-architect.
      c) Blank repo, assumed: record the chosen stack as ADRs instead of extracting conventions — and say it plainly: the method loses its main speed lever.
 2. Analyze the existing repo and document its actual structure and conventions.
 3. Fill the architecture template from this analysis + the PRD needs.

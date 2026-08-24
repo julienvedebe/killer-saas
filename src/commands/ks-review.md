@@ -6,6 +6,10 @@ allowed-tools:
   - Grep
   - Agent
   - Write
+disallowed-tools:
+  - Edit
+  - NotebookEdit
+  - Bash
 ---
 # ks-review — Delegated review + gate
 
@@ -14,7 +18,7 @@ Target story: $ARGUMENTS
 ## Execution contract (non-negotiable)
 You MUST complete this command by delegating to the `reviewer` subagent (fresh context). You are FORBIDDEN from:
 - Judging the code yourself: you are probably the context that produced it, hence blind to your own hallucinations.
-- Modifying source code. Your only write right is the report docs/reviews/<id>.md, nothing else.
+- Modifying source code. Your only write right is the report docs/reviews/<id>.md, nothing else. `Edit` and `Bash` are removed from your pool (`disallowed-tools`); `Write` stays because the report needs it, so restricting it to that one path is a contract you honour, not a mechanism that holds you.
 - Unblocking the Ship if a critical issue is reported.
 
 If you can't invoke the Agent tool, stop and report the error. Don't improvise.

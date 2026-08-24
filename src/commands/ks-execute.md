@@ -5,6 +5,11 @@ allowed-tools:
   - Read
   - Glob
   - Agent
+disallowed-tools:
+  - Write
+  - Edit
+  - NotebookEdit
+  - Bash
 ---
 # ks-execute — Delegated implementation
 

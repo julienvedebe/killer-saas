@@ -6,13 +6,17 @@ allowed-tools:
   - Glob
   - Agent
   - Write
+disallowed-tools:
+  - Edit
+  - NotebookEdit
+  - Bash
 ---
 # ks-stories-review — Delegated review of the story breakdown
 
 ## Execution contract (non-negotiable)
 You MUST complete this command by delegating to the `stories-reviewer` subagent (fresh context). You are FORBIDDEN from:
 - Judging the stories yourself: you are probably the context that wrote them, hence blind to your own gaps.
-- Modifying `docs/stories.md`. Your only write right is the report `docs/reviews/stories.md`, nothing else.
+- Modifying `docs/stories.md`. Your only write right is the report `docs/reviews/stories.md`, nothing else. `Edit` and `Bash` are removed from your pool (`disallowed-tools`); `Write` stays because the report needs it, so restricting it to that one path is a contract you honour, not a mechanism that holds you.
 - Softening a verdict to move the pipeline along.
 
 If you can't invoke the Agent tool, stop and report the error. Don't improvise.

@@ -8,6 +8,8 @@ One method = a suite of commands. One principle = no direct coding.
 Three rules define the normal feature pipeline, enforced by the tooling — not by discipline:
 
 1. **No direct coding.** No code is written outside the pipeline. `/ks-execute` doesn't have the Write/Edit/Bash tools: the main context *cannot* code, it delegates to the `implementer` subagent. The rule lives in the tooling, not in good intentions.
+
+   The mechanism is `disallowed-tools` in the command's frontmatter, which removes a tool from Claude's pool. `allowed-tools` alone would not do it: that field pre-approves tools, it does not restrict them — every unlisted tool stays callable, subject to the usual permission prompt. Omitting a tool from `allowed-tools` is therefore a hint, not a guarantee; the two reviewers keep `Write` (their reports need it) and rely on `disallowed-tools` for `Edit` and `Bash`. Beyond that, the guarantee is the git hooks (`--hooks`), which no harness setting can talk its way around.
 2. **The context that writes never reviews itself.** An agent is blind to its own hallucinations and to its own gaps. Reviews run in fresh-context, read-only subagents — `reviewer` for the code, `stories-reviewer` for the breakdown.
 3. **Fail-closed.** No plan → no execution. A critical issue in review → no ship. Every gate blocks by default; nothing gets forced through.
 

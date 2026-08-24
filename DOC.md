@@ -168,7 +168,7 @@ The installer always targets the directory you run it from — your project's ro
 
 | Mode | From your project's root | Effect |
 | --- | --- | --- |
-| Project (default) | `curl -fsSL https://raw.githubusercontent.com/MikeCodeur/killer-saas/main/install.sh \| bash` — or `<clone>/install.sh` | `.claude/` + `templates/` + `AGENTS.md`/`CLAUDE.md` in the current project |
+| Project (default) | `curl -fsSL https://raw.githubusercontent.com/julienvedebe/killer-saas/main/install.sh \| bash` — or `<clone>/install.sh` | `.claude/` + `templates/` + `AGENTS.md`/`CLAUDE.md` in the current project |
 | Global | `<clone>/install.sh --global` | Tooling in `~/.claude` (commands everywhere), payload in `~/.claude/killer-saas` |
 | Per project, after global | `~/.claude/killer-saas/install.sh init` | Drops templates + rules in the current project |
 | Update | `<clone>/install.sh update` — or the one-liner with `-s -- update` | Cleanly replaces the method's tooling (manifest-tracked, no ghosts, your own commands untouched), refreshes unmodified templates (modified ones are warned about, never overwritten — add `--force` to overwrite them too), stamps `.claude/.ks-version`. `AGENTS.md` is never touched |

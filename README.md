@@ -29,11 +29,11 @@ You don't clone this repo into your project: the installer drops its files into 
 Quickest — one-liner, from your project's root (the script fetches the repo itself):
 
     cd your-project
-    curl -fsSL https://raw.githubusercontent.com/MikeCodeur/killer-saas/main/install.sh | bash
+    curl -fsSL https://raw.githubusercontent.com/julienvedebe/killer-saas/main/install.sh | bash
 
 Prefer to read before you run? Clone the repo somewhere, then run the script from your project's root:
 
-    git clone https://github.com/MikeCodeur/killer-saas.git ~/tools/killer-saas
+    git clone https://github.com/julienvedebe/killer-saas.git ~/tools/killer-saas
     cd your-project
     ~/tools/killer-saas/install.sh
 
@@ -78,9 +78,9 @@ From your project's root:
     ~/tools/killer-saas/install.sh update              # Claude
     ~/tools/killer-saas/install.sh update --target codex   # Codex
     # or, without a clone:
-    curl -fsSL https://raw.githubusercontent.com/MikeCodeur/killer-saas/main/install.sh | bash -s -- update
+    curl -fsSL https://raw.githubusercontent.com/julienvedebe/killer-saas/main/install.sh | bash -s -- update
     # overwrite locally modified templates too:
-    curl -fsSL https://raw.githubusercontent.com/MikeCodeur/killer-saas/main/install.sh | bash -s -- update --force
+    curl -fsSL https://raw.githubusercontent.com/julienvedebe/killer-saas/main/install.sh | bash -s -- update --force
 
 What it does — and doesn't:
 - Cleanly replaces the method's tooling, tracked per target in `.ks-manifest` (`.claude/` or `.codex/` — your own commands/skills are never touched, renamed or removed files leave no ghosts).
